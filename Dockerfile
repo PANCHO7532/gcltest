@@ -7,4 +7,4 @@ COPY index.html /var/www/html
 
 EXPOSE 8080
 
-CMD ["nginx" "-g" "daemon off;"]
+#CMD ["nginx" "-g" "daemon off;"]
