@@ -6,11 +6,11 @@
 const net = require('net');
 const stream = require('stream');
 const util = require('util');
-var dhost = "127.0.0.1";
-var dport = "8080";
-var mainPort = "8888";
+var dhost = process.env.DHOST || "127.0.0.1";
+var dport = process.env.DPORT || 8888;
+var mainPort = "8080";
 var outputFile = "outputFile.txt";
-var packetsToSkip = 0;
+var packetsToSkip = process.env.PACKSKIP || 0;
 var gcwarn = true;
 for(c = 0; c < process.argv.length; c++) {
     switch(process.argv[c]) {
@@ -56,8 +56,8 @@ const server = net.createServer();
 server.on('connection', function(socket) {
     var packetCount = 0;
     //var handshakeMade = false;
-    socket.write("HTTP/1.1 101 Switching Protocols\r\nContent-Length: 1048576000000\r\n\r\n");
-    console.log("[INFO] - Connection received from " + socket.remoteAddress + ":" + socket.remotePort);
+    socket.write("HTTP/1.1 101 Switching Protocols\r\nContent-Length: 1048576000000\r\nConnection: Upgrade\r\nUpgrade: websocket\r\nSever: p7ws-gcl/0.1a\r\n\r\n");
+    console.log("[INFO] Connection received from " + socket.remoteAddress + ":" + socket.remotePort);
     var conn = net.createConnection({host: dhost, port: dport});
     socket.on('data', function(data) {
         //pipe sucks
@@ -84,19 +84,19 @@ server.on('connection', function(socket) {
         */
     });
     socket.on('error', function(error) {
-        console.log("[SOCKET] - read " + error + " from " + socket.remoteAddress + ":" + socket.remotePort);
+        console.log("[SOCKET] read " + error + " from " + socket.remoteAddress + ":" + socket.remotePort);
         conn.destroy();
     });
     conn.on('error', function(error) {
-        console.log("[REMOTE] - read " + error);
+        console.log("[REMOTE] read " + error);
         socket.destroy();
     });
     socket.on('close', function() {
-        console.log("[INFO] - Connection terminated for " + socket.remoteAddress + ":" + socket.remotePort);
+        console.log("[INFO] Connection terminated for " + socket.remoteAddress + ":" + socket.remotePort);
         conn.destroy();
     });
 });
 server.listen(mainPort, function(){
-    console.log("[INFO] - Server started on port: " + mainPort);
-    console.log("[INFO] - Redirecting requests to: " + dhost + " at port " + dport);
+    console.log("[INFO] Server started on port: " + mainPort);
+    console.log("[INFO] Redirecting requests to: " + dhost + " at port " + dport);
 });
