@@ -1,10 +1,7 @@
-FROM node:18-alpine
+FROM nginx:alpine
 
-WORKDIR /app
+COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY proxy3.js .
-COPY package.json .
+RUN rc-service restart nginx
 
-EXPOSE 80
-
-CMD [ "npm", "start" ]
+EXPOSE 8080 # Expose 8080
