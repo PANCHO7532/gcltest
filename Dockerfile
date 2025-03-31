@@ -1,6 +1,7 @@
 FROM nginx
 
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY index.html /var/www/html
 
 #RUN rc-service nginx restart
 
