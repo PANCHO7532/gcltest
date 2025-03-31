@@ -3,8 +3,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 COPY proxy3.js .
-
-RUN npm install
+COPY package.json .
 
 EXPOSE 8080
 
