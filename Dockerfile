@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM nginx
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY index.html /var/www/html
@@ -8,4 +8,4 @@ COPY index.html /var/www/html
 EXPOSE 8080
 
 #CMD ["nginx"]
-CMD sh -c "nginx -g 'daemon off;'"
+#CMD sh -c "nginx -g 'daemon off;'"
