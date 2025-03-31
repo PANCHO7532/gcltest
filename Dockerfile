@@ -5,6 +5,6 @@ WORKDIR /app
 COPY proxy3.js .
 COPY package.json .
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD [ "npm", "start" ]
