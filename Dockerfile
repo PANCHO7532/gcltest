@@ -4,4 +4,4 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 #RUN rc-service restart nginx
 
-EXPOSE 8080 # Expose 8080
+EXPOSE 8080
